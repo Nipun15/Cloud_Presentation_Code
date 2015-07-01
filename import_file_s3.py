@@ -3,8 +3,8 @@ import boto.s3.connection
 
 from boto.s3.connection import S3Connection
  
-AWS_KEY = 'AKIAJZFN5EIBI33FUGVA'
-AWS_SECRET = 'PkjioUAs7YdEOdxO7LRjMbqICKY89mTb6BBzSm7W'
+AWS_KEY = 'YOUR ACCESS KEY HERE'
+AWS_SECRET = 'YOUR SECRET KEY HERE'
 
 aws_connection = S3Connection(AWS_KEY, AWS_SECRET)
 bucket = aws_connection.get_bucket('cfpbfile')

@@ -1,0 +1,46 @@
+/** Import the CFPB Complaints file.  **/
+FILENAME cfpb "/folders/myfolders/CFPB/CFPB_Consumer_Complaints.csv" TERMSTR=CRLF;
+PROC IMPORT DATAFILE=cfpb
+		    OUT=cfpbfile
+		    DBMS=CSV
+		    REPLACE;
+RUN;
+
+
+*** find the number of complaints by product ***;
+proc sql;
+create table Product as
+select Product, 
+       count(*) as complaints 
+           from cfpbfile 
+           group by Product
+           order by complaints desc
+             ;
+           quit;
+
+PROC PRINT DATA=Product; 
+Title "Summarize Complaints by Product Type";
+RUN;
+
+
+
+*** Complaints by state and product type ***;
+proc sql;
+create table states_prod as
+select State, 
+       Product, 
+       count(*) as complaints 
+           from cfpbfile
+           where state <>''
+           group by State, Product
+           order by State,complaints desc
+           ;
+           quit;
+
+PROC PRINT DATA=states_prod; 
+Title "Summarize Complaints by State and Product Type";
+RUN;
+
+
+/** Unassign the file reference.  **/
+FILENAME cfpb;
